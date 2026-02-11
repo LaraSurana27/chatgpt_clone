@@ -1,0 +1,210 @@
+/* Sidebar Container */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background-color: var(--bg-secondary);
+    /* Distinct sidebar color */
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    /* Tighter padding */
+    border-right: 1px solid transparent;
+    /* Often no border in dark mode, or subtle */
+    transition: transform var(--transition-speed) ease-in-out;
+}
+
+/* Mobile Sidebar Width Override? controlled by inline styles in ChatLayout usually */
+
+/* New Chat Button */
+.newChatBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    /* Space before list */
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-main);
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    text-align: left;
+    font-size: 0.875rem;
+}
+
+.newChatBtn:hover {
+    background-color: var(--bg-tertiary);
+    /* Gentle hover */
+}
+
+/* Chat History List */
+.chatList {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Scrollbar styling */
+.chatList::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chatList::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 3px;
+    visibility: hidden;
+}
+
+.chatList:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
+}
+
+/* Individual Chat Item */
+.chatItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 0.875rem;
+    color: var(--text-main);
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+}
+
+.chatItem:hover {
+    background-color: var(--bg-tertiary);
+    /* Or subtle highlight */
+}
+
+.chatItem.active {
+    background-color: var(--bg-tertiary);
+    /* Maybe distinctive styling if desired, usually just background */
+}
+
+.chatIcon {
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.chatTitle {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /* Fade out effect could be nice but simple overflow is safer */
+}
+
+/* Delete Action */
+.deleteBtn {
+    opacity: 0;
+    position: absolute;
+    right: 0.5rem;
+    background: linear-gradient(90deg, transparent, var(--bg-secondary) 20%);
+    /* Gradient mask or just distinct bg? */
+    background: var(--bg-secondary);
+    /* Needs to cover text */
+    /* Wait, if item is active/hovered, bg changes. */
+    /* Let's just make it a simple button that appears */
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+}
+
+.chatItem:hover .deleteBtn {
+    opacity: 1;
+    background-color: var(--bg-tertiary);
+    /* Match parent hover */
+}
+
+.deleteBtn:hover {
+    color: var(--text-main);
+}
+
+/* User Section (Bottom) */
+.userSection {
+    border-top: 1px solid var(--border);
+    padding-top: 0.5rem;
+    margin-top: auto;
+    /* Push to bottom */
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    width: 100%;
+    background: transparent;
+    border: none;
+    text-align: left;
+    color: var(--text-main);
+}
+
+.userInfo:hover {
+    background-color: var(--bg-tertiary);
+}
+
+.avatar {
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--bg-tertiary);
+    /* Just gray placeholder */
+    border-radius: 2px;
+    /* ChatGPT often uses square-ish avatars */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.username {
+    font-size: 0.875rem;
+    font-weight: 500;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.logoutBtn {
+    /* We might want to incorporate logout into a menu, 
+        but sticking to current structure: a button below or part of profile?
+        The original code had a separate logout button. 
+        I'll keep it simple for now: User profile IS the menu trigger ideally, 
+        but for this UI pass, let's keep the logout button distinct but minimal. */
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    width: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    border-radius: 6px;
+    transition: color 0.2s;
+    margin-top: 2px;
+}
+
+.logoutBtn:hover {
+    color: var(--text-main);
+    background-color: var(--bg-tertiary);
+}

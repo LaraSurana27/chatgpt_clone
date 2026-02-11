@@ -1,0 +1,109 @@
+.row {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem;
+    /* Spacious padding */
+    width: 100%;
+    margin-bottom: 0px;
+    /* Messages are contiguous in ChatGPT usually, but let's keep slight gap or border */
+    border-bottom: 1px solid transparent;
+    /* Separator if needed */
+    max-width: 900px;
+    /* Content width restriction */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.row:hover {
+    background-color: transparent;
+    /* Or subtle hover if acting like a list */
+}
+
+.userRow {
+    justify-content: flex-end;
+    /* OR keep left-aligned? ChatGPT UI is all left-aligned vertically in the center column. 
+    Actually, user messages are on the right in some apps, but ChatGPT "classic" is a stream where everything is left-aligned in a central column. 
+    HOWEVER, the user requested "Message bubbles". 
+    Bubbles usually imply left/right. 
+    "Message appearance animations... Message bubbles...".
+    I will stick to the standard "User Right, AI Left" bubble style for "Chat App" feel, or "Central Column" if strict ChatGPT.
+    Request says "Match ChatGPT-style layout... sidebar... message bubbles".
+    ChatGPT uses full-width rows with avatars on left usually. BUT user explicitly said "Message bubbles".
+    I will do Bubbles: User Right (bubble), AI Left (transparent/bubble).
+    This is safer for "UI Engineer" request for "Bubbles".
+    */
+    background-color: transparent;
+}
+
+.aiRow {
+    justify-content: flex-start;
+    background-color: transparent;
+}
+
+.avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 2px;
+    /* ChatGPT square-ish */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 4px;
+    /* Align with top of bubble */
+}
+
+.aiAvatar {
+    background-color: var(--text-main);
+    /* White avatar with inverted dark icon */
+    color: var(--bg-primary);
+}
+
+.userAvatar {
+    background-color: var(--text-secondary);
+    /* Gray */
+    color: var(--bg-primary);
+    border-radius: 2px;
+}
+
+.bubble {
+    padding: 0.75rem 1rem;
+    max-width: 80%;
+    line-height: 1.6;
+    font-size: 1rem;
+    position: relative;
+    word-break: break-word;
+    /* Ensure long words don't overflow */
+    white-space: pre-wrap;
+    border-radius: 12px;
+}
+
+.userBubble {
+    background-color: rgba(255,255,255,0.06);
+    /* Subtle light bubble on dark canvas */
+    color: var(--text-main);
+    border-top-right-radius: 6px;
+}
+
+.aiBubble {
+    background-color: transparent;
+    /* AI often transparent or subtle in ChatGPT */
+    color: var(--text-main);
+    padding-left: 0;
+    /* Align with text if transparent? Or keep bubble? */
+    /* If bubble: */
+    /* background-color: var(--bg-secondary); */
+    /* Let's go with minimal transparency for AI to look clean */
+}
+
+/* Mobile Tweaks */
+@media (max-width: 768px) {
+    .row {
+        padding: 1rem;
+    }
+
+    .bubble {
+        max-width: 90%;
+        font-size: 0.95rem;
+    }
+}
