@@ -2,7 +2,7 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const path = require('path')
-const buildPath = path.join(__dirname, '../dist');
+const buildPath = path.join(__dirname, '../public');
 
 /* Routes*/
 const authRoutes = require("./routes/auth.routes")
@@ -31,7 +31,7 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(buildPath, 'index.html'));
 });
 
-console.log("Serving static from:", path.join(__dirname, '../public'));
+console.log("Serving static from:", path.join(__dirname, '../index.html'));
 
 
 
