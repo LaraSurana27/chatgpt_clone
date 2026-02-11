@@ -7,23 +7,13 @@ const router = express.Router()
 router.post('/register', registerUSer)
 router.post('/login', loginUser)
 
-
 router.get('/me', authUser, (req, res) => {
-  res.json({
-    user: {
-      _id: req.user._id,
-      email: req.user.email,
-      fullName: req.user.fullName,
-    },
-  })
-})
+  res.json({ user: req.user });
+});
 
 router.post('/logout', (req, res) => {
-  res.clearCookie('token', {
-    httpOnly: true,
-    sameSite: 'lax',
-  })
-  res.status(200).json({ message: 'Logged out' })
-})
+  res.clearCookie('token');
+  res.json({ message: 'Logged out' });
+});
 
 module.exports = router

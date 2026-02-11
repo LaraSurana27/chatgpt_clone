@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../config';
 
 const AuthContext = createContext(null);
 
@@ -10,12 +11,14 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // ✅ Restore session (FIXED: added credentials)
+  /* ===============================
+     Restore session on reload
+     =============================== */
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const response = await fetch('/api/auth/me', {
-          credentials: 'include'
+        const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+          credentials: 'include',
         });
 
         if (response.ok) {
@@ -24,7 +27,8 @@ export const AuthProvider = ({ children }) => {
         } else {
           setUser(null);
         }
-      } catch {
+      } catch (err) {
+        console.error('Session restore failed', err);
         setUser(null);
       } finally {
         setLoading(false);
@@ -34,9 +38,11 @@ export const AuthProvider = ({ children }) => {
     checkSession();
   }, []);
 
-  // ✅ LOGIN (navigation fixed)
+  /* ===============================
+     LOGIN
+     =============================== */
   const login = async (email, password) => {
-    const response = await fetch('/api/auth/login', {
+    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -50,13 +56,14 @@ export const AuthProvider = ({ children }) => {
 
     const data = await response.json();
     setUser(data.user);
-
-    navigate('/'); // ✅ FIXED
+    navigate('/chat');
   };
 
-  // ✅ REGISTER (structure already correct)
+  /* ===============================
+     REGISTER
+     =============================== */
   const register = async (firstName, lastName, email, password) => {
-    const response = await fetch('/api/auth/register', {
+    const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -65,8 +72,8 @@ export const AuthProvider = ({ children }) => {
         password,
         fullName: {
           firstName,
-          lastName
-        }
+          lastName,
+        },
       }),
     });
 
@@ -77,19 +84,24 @@ export const AuthProvider = ({ children }) => {
 
     const data = await response.json();
     setUser(data.user);
-
-    navigate('/'); // ✅ FIXED
+    navigate('/chat');
   };
 
-  // ✅ LOGOUT (navigation fixed + credentials added)
+  /* ===============================
+     LOGOUT
+     =============================== */
   const logout = async () => {
-    await fetch('/api/auth/logout', {
-      method: 'POST',
-      credentials: 'include'
-    });
+    try {
+      await fetch(`${API_BASE_URL}/api/auth/logout`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+    } catch (err) {
+      console.error('Logout failed', err);
+    }
 
     setUser(null);
-    navigate('/login'); // ✅ FIXED
+    navigate('/auth/login');
   };
 
   return (
