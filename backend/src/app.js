@@ -14,7 +14,7 @@ const app = express()
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://your-vercel-app.vercel.app"
+    "https://chatgpt-clone-xkmm.onrender.com"
   ],
   credentials: true
 }))
@@ -25,8 +25,12 @@ app.use(express.static(buildPath));
 
 
 /* Using Routes*/
-app.use('/auth', authRoutes)
-app.use('/chat', chatRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api/chat', chatRoutes)
+
+app.use('/auth', authRoutes)      // optional but safe
+app.use('/chat', chatRoutes)      // optional but safe
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(buildPath, 'index.html'));
 });
