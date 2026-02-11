@@ -2,6 +2,7 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const path = require('path')
+const buildPath = path.join(__dirname, '../dist');
 
 /* Routes*/
 const authRoutes = require("./routes/auth.routes")
@@ -20,14 +21,18 @@ app.use(cors({
 
 app.use(express.json())
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, '../public')))
+app.use(express.static(buildPath));
+
 
 /* Using Routes*/
 app.use('/api/auth', authRoutes)
 app.use('/api/chat', chatRoutes)
-app.get("*name", (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'))
-})
+app.get("*", (req, res) => {
+  res.sendFile(path.join(buildPath, 'index.html'));
+});
+
+console.log("Serving static from:", path.join(__dirname, '../public'));
+
 
 
 module.exports = app

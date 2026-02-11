@@ -10,5 +10,5 @@ initSocketServer(httpServer)
 
 httpServer.listen(PORT, () =>
 {
-    console.log("server is running")
+    console.log(`server is running on port ${PORT}`)
 })
