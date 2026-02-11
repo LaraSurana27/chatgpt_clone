@@ -25,8 +25,8 @@ app.use(express.static(buildPath));
 
 
 /* Using Routes*/
-app.use('/api/auth', authRoutes)
-app.use('/api/chat', chatRoutes)
+app.use('/auth', authRoutes)
+app.use('/chat', chatRoutes)
 app.get("*", (req, res) => {
   res.sendFile(path.join(buildPath, 'index.html'));
 });
