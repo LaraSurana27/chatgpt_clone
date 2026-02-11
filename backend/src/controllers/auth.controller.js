@@ -4,11 +4,18 @@ const jwt = require("jsonwebtoken");
 
 async function registerUSer(req, res) {
   try {
-    const {
-      fullName: { firstName, lastName },
-      email,
-      password,
-    } = req.body;
+    const { fullName, email, password } = req.body;
+
+    if (!fullName || !fullName.firstName || !fullName.lastName || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const { firstName, lastName } = fullName;
+
+    if (!process.env.JWT_SECRET) {
+      console.error("FATAL ERROR: JWT_SECRET is not defined in environment variables");
+      return res.status(500).json({ message: "Server configuration error" });
+    }
 
     const isUserAlreadyExists = await userModel.findOne({ email });
 
@@ -48,13 +55,25 @@ async function registerUSer(req, res) {
 
   } catch (error) {
     console.error("Register error:", error);
-    res.status(500).json({ message: error.message });
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ message: error.message });
+    }
+    res.status(500).json({ message: "Internal Server Error during registration" });
   }
 }
 
 async function loginUser(req, res) {
   try {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    if (!process.env.JWT_SECRET) {
+      console.error("FATAL ERROR: JWT_SECRET is not defined in environment variables");
+      return res.status(500).json({ message: "Server configuration error" });
+    }
 
     const user = await userModel.findOne({ email });
 
@@ -94,7 +113,7 @@ async function loginUser(req, res) {
 
   } catch (error) {
     console.error("Login error:", error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Internal Server Error during login" });
   }
 }
 
